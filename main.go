@@ -35,10 +35,14 @@ func main() {
 	rng := rand.New(rand.NewSource(1))
 	x := NewZeroMatrix(32, 1)
 	y := NewZeroMatrix(32, 1)
+	set := make([]int, 1024)
+	for i := range set {
+		set[i] = rng.Intn(n) + 1
+	}
 	samples := make([]Line, 256)
 	for i := range samples {
 		for j := range x.Data {
-			a := rng.Intn(n) + 1
+			a := set[rng.Intn(len(set))]
 			x.Data[j] = float32(a)
 			y.Data[j] = float32(N % a)
 		}
