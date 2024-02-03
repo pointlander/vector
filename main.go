@@ -28,15 +28,19 @@ type Point struct {
 }
 
 func main() {
+	const (
+		N = 7 * 11
+	)
+	n := N / 2
 	rng := rand.New(rand.NewSource(1))
 	x := NewZeroMatrix(32, 1)
 	y := NewZeroMatrix(32, 1)
-	samples := make([]Line, 300)
+	samples := make([]Line, 256)
 	for i := range samples {
 		for j := range x.Data {
-			a := rng.Intn(100) + 1
+			a := rng.Intn(n) + 1
 			x.Data[j] = float32(a)
-			y.Data[j] = float32(77 % a)
+			y.Data[j] = float32(N % a)
 		}
 		b0, b1 := LinearRegression(x, y)
 		samples[i].B0 = b0
@@ -51,12 +55,14 @@ func main() {
 		for j := i + 1; j < len(samples); j++ {
 			x := (samples[j].B0 - samples[i].B0) / (samples[i].B1 - samples[j].B1)
 			y := samples[i].B1*x + samples[i].B0
-			points = append(points, Point{
-				X: x,
-				Y: y,
-				A: samples[i],
-				B: samples[j],
-			})
+			if !math.IsNaN(x) && !math.IsNaN(y) {
+				points = append(points, Point{
+					X: x,
+					Y: y,
+					A: samples[i],
+					B: samples[j],
+				})
+			}
 		}
 	}
 	for i := range points {
@@ -76,4 +82,5 @@ func main() {
 	for i := range points[:10] {
 		fmt.Println(points[i].X, points[i].Y, points[i].Cost)
 	}
+	fmt.Println(N, n)
 }
