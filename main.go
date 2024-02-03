@@ -74,6 +74,7 @@ func main() {
 			diffy := points[i].Y - points[j].Y
 			points[i].Cost += math.Sqrt(diffx*diffx + diffy*diffy)
 		}
+		points[i].Cost /= float64(len(points))
 	}
 	sort.Slice(points, func(i, j int) bool {
 		return points[i].Cost < points[j].Cost
@@ -82,5 +83,5 @@ func main() {
 	for i := range points[:10] {
 		fmt.Println(points[i].X, points[i].Y, points[i].Cost)
 	}
-	fmt.Println(N, n)
+	fmt.Println(N, points[0].X*points[0].Y, n)
 }
