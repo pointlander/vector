@@ -29,8 +29,8 @@ type Point struct {
 
 func main() {
 	rng := rand.New(rand.NewSource(1))
-	x := NewZeroMatrix(10, 1)
-	y := NewZeroMatrix(10, 1)
+	x := NewZeroMatrix(32, 1)
+	y := NewZeroMatrix(32, 1)
 	samples := make([]Line, 300)
 	for i := range samples {
 		for j := range x.Data {
